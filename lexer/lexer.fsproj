@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <AssemblyName>com.github.wenjunhuang.lox.lexer</AssemblyName>
+        <RootNamespace>com.github.wenjunhuang.lox.lexer</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="TokenType.fs" />
+        <Compile Include="Token.fs" />
+        <Compile Include="Scanner.fs" />
+    </ItemGroup>
+
+</Project>
