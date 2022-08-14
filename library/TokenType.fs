@@ -1,4 +1,4 @@
-﻿namespace com.github.wenjunhuang.lox.lexer
+﻿namespace com.github.wenjunhuang.lox
 
 type TokenType =
     | LEFT_PAREN

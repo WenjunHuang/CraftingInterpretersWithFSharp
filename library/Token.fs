@@ -1,7 +1,7 @@
-﻿namespace com.github.wenjunhuang.lox.lexer
+﻿namespace com.github.wenjunhuang.lox
 
 type Token =
     { tokenType: TokenType
       lexeme: string
-      literal: option<obj>
+      literal: obj option
       line: int }

@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "lexer", "lexer\lexer.fsproj", "{C0BC53F3-A5F8-4809-8D4D-AE3C159415ED}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "library", "library\library.fsproj", "{C0BC53F3-A5F8-4809-8D4D-AE3C159415ED}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "interpreter", "interpreter\interpreter.fsproj", "{2169E42F-C7B0-4C85-B8B9-4EF0739326BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +14,9 @@ Global
 		{C0BC53F3-A5F8-4809-8D4D-AE3C159415ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0BC53F3-A5F8-4809-8D4D-AE3C159415ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0BC53F3-A5F8-4809-8D4D-AE3C159415ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2169E42F-C7B0-4C85-B8B9-4EF0739326BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2169E42F-C7B0-4C85-B8B9-4EF0739326BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2169E42F-C7B0-4C85-B8B9-4EF0739326BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2169E42F-C7B0-4C85-B8B9-4EF0739326BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
