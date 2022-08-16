@@ -4,6 +4,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "library", "library\library.
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "interpreter", "interpreter\interpreter.fsproj", "{2169E42F-C7B0-4C85-B8B9-4EF0739326BC}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TestLibrary", "TestLibrary\TestLibrary.fsproj", "{567BD0BB-4887-4650-9833-5D6610D0F1F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{2169E42F-C7B0-4C85-B8B9-4EF0739326BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2169E42F-C7B0-4C85-B8B9-4EF0739326BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2169E42F-C7B0-4C85-B8B9-4EF0739326BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{567BD0BB-4887-4650-9833-5D6610D0F1F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{567BD0BB-4887-4650-9833-5D6610D0F1F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{567BD0BB-4887-4650-9833-5D6610D0F1F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{567BD0BB-4887-4650-9833-5D6610D0F1F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

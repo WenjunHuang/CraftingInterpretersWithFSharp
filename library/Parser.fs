@@ -2,7 +2,6 @@
 
 open System
 open System.Collections.Generic
-open System.Text.RegularExpressions
 
 type Parser(tokens: Token array) =
     let mutable current = 0

@@ -93,8 +93,7 @@ type Scanner(source: string) as this =
         else
             advance () |> ignore // The closing "
             // Trim the surrounding quotes
-            let value =
-                StringValue(source.Substring(start + 1, current - start - 2))
+            let value = StringValue(source.Substring(start + 1, current - start - 2))
 
             this.addToken (TokenType.STRING, value)
 
@@ -102,8 +101,7 @@ type Scanner(source: string) as this =
         while peek () |> isAlphaNumeric do
             advance () |> ignore
 
-        let text =
-            source.Substring(start, current - start)
+        let text = source.Substring(start, current - start)
 
         match keywords.TryGetValue text with
         | true, token -> this.addToken token
@@ -150,19 +148,17 @@ type Scanner(source: string) as this =
             |> this.addToken
         | '/' ->
             if matchChar '/' then
-                while peek () <> '\n' && not (isAtEnd ()) do
+                let notEndOfLine () = peek () <> '\n' && not (isAtEnd ())
+
+                while notEndOfLine () do
                     advance () |> ignore
             elif matchChar '*' then
-                let mutable endLoop = false
+                let matchEndOfComment () = matchChar '*' && matchChar '/'
 
-                while not (isAtEnd ()) && not endLoop do
-                    if matchChar '*' then
-                        if matchChar '/' then endLoop <- true
-
-                    if not (endLoop) then
-                        advance () |> ignore
+                while not (isAtEnd ()) && not (matchEndOfComment ()) do
+                    advance () |> ignore
             else
-                this.addToken (TokenType.SLASH)
+                this.addToken TokenType.SLASH
         | ' '
         | '\r'
         | '\t' -> ()

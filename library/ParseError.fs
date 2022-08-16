@@ -3,6 +3,4 @@
 open System
 
 type ParseError() =
-    class
-        inherit Exception()
-    end
+    inherit Exception()

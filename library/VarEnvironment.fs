@@ -1,21 +1,19 @@
 ﻿namespace com.github.wenjunhuang.lox
 
-open System.Collections.Generic
 
 type VarEnvironment =
-
     val private outer: option<VarEnvironment>
     val mutable values: Map<string, Value>
 
     private new(o: option<VarEnvironment>) = { outer = o; values = Map.empty }
 
     static member Global = VarEnvironment(None)
-    static member Enclosing(outer: VarEnvironment) = VarEnvironment(Some outer)
+    static member Enclosing (outer: VarEnvironment) = VarEnvironment(Some outer)
 
     member this.Define (name: Token) value =
         this.values <- Map.add name.lexeme value this.values
 
-    member this.Get(name: Token) =
+    member this.Get (name: Token) =
         match Map.tryFind name.lexeme this.values with
         | Some value -> value
         | None ->

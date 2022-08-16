@@ -1,5 +1,4 @@
-﻿// For more information see https://aka.ms/fsharp-console-apps
-module com.github.wenjunhuang.lox.interpreter.program
+﻿module com.github.wenjunhuang.lox.interpreter.Program
 
 open com.github.wenjunhuang.lox
 
@@ -18,9 +17,9 @@ let main _ =
         }
 
     let interpret = Interpreter()
-    
+
     for line in cont do
-        match (Scanner(line).scanTokens() |> Parser).Parse() with
+        match (Scanner(line).scanTokens () |> Parser).Parse() with
         | Ok resultValue -> interpret.Interpret(resultValue)
         | Error error -> stdout.WriteLine(error.Message)
 
