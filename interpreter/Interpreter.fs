@@ -65,7 +65,7 @@ type Interpreter() =
 
     and evaluate expr = visit expr
 
-    let visitStatement stmt =
+    let rec visitStatement stmt =
         match stmt with
         | Statement.Expr expr -> evaluate expr |> ignore
         | Statement.Print expr ->
@@ -78,7 +78,21 @@ type Interpreter() =
                 | None -> NoValue
 
             environment.Define token value
+        | Statement.Block stmts -> executeBlock stmts
 
+    and executeBlock statements =
+        let oldEnvironment = environment
+
+        try
+            let newEnvironment =
+                VarEnvironment.Enclosing oldEnvironment
+
+            environment <- newEnvironment
+
+            for stmt in statements do
+                visitStatement stmt
+        finally
+            environment <- oldEnvironment
 
     member this.Interpret(statements: seq<Statement>) =
         try

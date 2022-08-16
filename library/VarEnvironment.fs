@@ -10,7 +10,7 @@ type VarEnvironment =
     private new(o: option<VarEnvironment>) = { outer = o; values = Map.empty }
 
     static member Global = VarEnvironment(None)
-    static member CreateEnvironment(outer: VarEnvironment) = VarEnvironment(Some outer)
+    static member Enclosing(outer: VarEnvironment) = VarEnvironment(Some outer)
 
     member this.Define (name: Token) value =
         this.values <- Map.add name.lexeme value this.values

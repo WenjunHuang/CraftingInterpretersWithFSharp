@@ -1,6 +1,7 @@
 ﻿namespace com.github.wenjunhuang.lox
 
 open System
+open System.Collections.Generic
 open System.Text.RegularExpressions
 
 type Parser(tokens: Token array) =
@@ -91,8 +92,24 @@ type Parser(tokens: Token array) =
     and statement () =
         if matching [ TokenType.PRINT ] then
             printStatement ()
+        elif matching [ TokenType.LEFT_BRACE ] then
+            Statement.Block(blockStatement ())
         else
             expressionStatement ()
+
+    and blockStatement () =
+        let statements = List<Statement>()
+
+        while not (check TokenType.RIGHT_BRACE)
+              && not (isAtEnd ()) do
+            match declaration () with
+            | Some stm -> statements.Add(stm)
+            | None -> ()
+
+        consume TokenType.RIGHT_BRACE "Expect '}' after block."
+        |> ignore
+
+        statements.ToArray()
 
     and expressionStatement () =
         let expr = expression ()
