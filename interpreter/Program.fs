@@ -1,8 +1,10 @@
 ﻿// For more information see https://aka.ms/fsharp-console-apps
+module com.github.wenjunhuang.lox.interpreter.program
 
+open com.github.wenjunhuang.lox
 
 [<EntryPoint>]
-let main args =
+let main _ =
     let cont =
         seq {
             let mutable endLoop = false
@@ -15,7 +17,11 @@ let main args =
                 | None -> endLoop <- true
         }
 
+    let interpret = Interpreter()
+    
     for line in cont do
-        stdout.WriteLine line
+        match (Scanner(line).scanTokens() |> Parser).Parse() with
+        | Ok resultValue -> interpret.Interpret(resultValue)
+        | Error error -> stdout.WriteLine(error.Message)
 
     0

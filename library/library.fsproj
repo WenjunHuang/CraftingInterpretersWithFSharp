@@ -8,14 +8,18 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Value.fs" />
         <Compile Include="ParseError.fs" />
         <Compile Include="TokenType.fs" />
         <Compile Include="Token.fs" />
+        <Compile Include="RuntimeError.fs" />
+        <Compile Include="VarEnvironment.fs" />
+        <Compile Include="Expresson.fs" />
+        <Compile Include="Statement.fs" />
         <Compile Include="Lox.fs" />
         <Compile Include="Scanner.fs" />
-        <Compile Include="Expresson.fs" />
+        <Compile Include="IStmtVisitor.fs" />
         <Compile Include="IExprVisitor.fs" />
-        <Compile Include="Statement.fs" />
         <Compile Include="Parser.fs" />
     </ItemGroup>
 

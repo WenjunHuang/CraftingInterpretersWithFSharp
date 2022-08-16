@@ -3,5 +3,5 @@
 type Token =
     { tokenType: TokenType
       lexeme: string
-      literal: obj option
+      literal: Value
       line: int }

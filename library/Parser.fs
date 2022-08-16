@@ -1,8 +1,9 @@
 ﻿namespace com.github.wenjunhuang.lox
 
 open System
+open System.Text.RegularExpressions
 
-type Parser(tokens: Token array) as this =
+type Parser(tokens: Token array) =
     let mutable current = 0
 
     let peek () = tokens[current]
@@ -93,8 +94,22 @@ type Parser(tokens: Token array) as this =
         else
             expressionStatement ()
 
-    and expressionStatement () = failwith "Not implemented"
-    and printStatement () = failwith "Not implemented"
+    and expressionStatement () =
+        let expr = expression ()
+
+        consume TokenType.SEMICOLON "Expect ';' after expression."
+        |> ignore
+
+        Statement.Expr(expr)
+
+    and printStatement () =
+        let expr = expression ()
+
+        consume TokenType.SEMICOLON "Expect ';' after value."
+        |> ignore
+
+        Statement.Print(expr)
+
     and expression () = assignment ()
 
     and assignment () =
@@ -173,10 +188,35 @@ type Parser(tokens: Token array) as this =
         if matching [ NUMBER; STRING ] then
             Literal(value = previous().literal)
         elif matching [ TRUE ] then
-            Literal(value = Some(true))
+            Literal(value = BoolValue(true))
+        elif matching [ FALSE ] then
+            Literal(value = BoolValue(false))
+        elif matching [ IDENTIFIER ] then
+            Variable(name = previous ())
+        elif matching [ NIL ] then
+            Literal(value = NoValue)
+        elif matching [ LEFT_PAREN ] then
+            let expr = expression ()
 
+            consume RIGHT_PAREN "Expect ')' after expression."
+            |> ignore
+
+            Grouping(expr)
         else
-            peek () |> error "Expect expression." |> raise
+            error (peek ()) "Expect expression." |> raise
 
 
-    member this.Parse() : Result<Statement [], Exception> = failwith "Not implemented"
+    member this.Parse() : Result<array<Statement>, Exception> =
+        try
+            let mutable statements = []
+
+            while not (isAtEnd ()) do
+                let statement = declaration ()
+
+                match statement with
+                | Some statement -> statements <- statement :: statements
+                | None -> synchronize ()
+
+            Ok(List.toArray statements)
+        with
+        | e -> Error(e)

@@ -2,7 +2,6 @@
 
 open System
 open System.Collections.Generic
-open System.ComponentModel
 
 type Scanner(source: string) as this =
     static let keywords =
@@ -38,13 +37,17 @@ type Scanner(source: string) as this =
     let matchChar c =
         if isAtEnd () then
             false
-        else if source[current] = c then
+        else if source[current] <> c then
             false
         else
-            advance () |> ignore
+            current <- current + 1
             true
 
-    let peek () = source[current]
+    let peek () =
+        if isAtEnd () then
+            '\u0000'
+        else
+            source[current]
 
     let isDigit c = c >= '0' && c <= '9'
 
@@ -74,9 +77,9 @@ type Scanner(source: string) as this =
                 advance () |> ignore
 
         let literal =
-            match Double.TryParse(source.Substring(start, current)) with
-            | (true, value) -> Some(value)
-            | _ -> None
+            match Double.TryParse(source.Substring(start, current - start)) with
+            | (true, value) -> DoubleValue(value)
+            | _ -> NoValue
 
         this.addToken (TokenType.NUMBER, literal)
 
@@ -86,23 +89,24 @@ type Scanner(source: string) as this =
             advance () |> ignore
 
         if isAtEnd () then
-            Lox.error line "Unterminated string."
+            Lox.errorAt line "Unterminated string."
         else
             advance () |> ignore // The closing "
             // Trim the surrounding quotes
             let value =
-                source.Substring(start + 1, current - 1)
+                StringValue(source.Substring(start + 1, current - start - 2))
 
-            this.addToken (TokenType.STRING, Some(value))
+            this.addToken (TokenType.STRING, value)
 
     let identifier () =
         while peek () |> isAlphaNumeric do
             advance () |> ignore
 
-        let text = source.Substring(start, current)
+        let text =
+            source.Substring(start, current - start)
 
         match keywords.TryGetValue text with
-        | true, token -> this.addToken (token, None)
+        | true, token -> this.addToken token
         | _ -> this.addToken IDENTIFIER
 
 
@@ -166,13 +170,13 @@ type Scanner(source: string) as this =
         | '"' -> stringToken ()
         | c when isDigit (c) -> number ()
         | c when isAlpha (c) -> identifier ()
-        | _ -> Lox.error line "Unexpected character."
+        | _ -> Lox.errorAt line "Unexpected character."
 
-    member private this.addToken(tokenType: TokenType, ?literal: obj) =
+    member private this.addToken(tokenType: TokenType, ?literal: Value) =
         tokens.Add
             { tokenType = tokenType
-              lexeme = source.Substring(start, current)
-              literal = literal
+              lexeme = source.Substring(start, current - start)
+              literal = literal |> Option.defaultValue NoValue
               line = line }
 
 
